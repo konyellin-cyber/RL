@@ -187,13 +187,17 @@ $$
 
 #### 最优状态价值函数
 
-$$V^{*}(s) = \max_\pi V^\pi(s), \quad \forall s \in \mathcal{S}$$
+$$
+V^{*}(s) = \max_\pi V^\pi(s), \quad \forall s \in \mathcal{S}
+$$
 
 **含义**：所有可能策略中，状态 $s$ 能达到的最大价值。
 
 #### 最优动作价值函数
 
-$$Q^{*}(s, a) = \max_\pi Q^\pi(s, a), \quad \forall s \in \mathcal{S}, a \in \mathcal{A}$$
+$$
+Q^{*}(s, a) = \max_\pi Q^\pi(s, a), \quad \forall s \in \mathcal{S}, a \in \mathcal{A}
+$$
 
 **含义**：所有可能策略中，在状态 $s$ 执行动作 $a$ 能达到的最大价值。
 
@@ -201,11 +205,15 @@ $$Q^{*}(s, a) = \max_\pi Q^\pi(s, a), \quad \forall s \in \mathcal{S}, a \in \ma
 
 #### 方程形式
 
-$$V^{*}(s) = \max_{a \in \mathcal{A}} \sum_{s' \in \mathcal{S}} P(s'|s, a) \left[R(s, a, s') + \gamma V^{*}(s')\right]$$
+$$
+V^{*}(s) = \max_{a \in \mathcal{A}} \sum_{s' \in \mathcal{S}} P(s'|s, a) \left[R(s, a, s') + \gamma V^{*}(s')\right]
+$$
 
 或者使用 $Q^{*}$：
 
-$$V^{*}(s) = \max_{a \in \mathcal{A}} Q^{*}(s, a)$$
+$$
+V^{*}(s) = \max_{a \in \mathcal{A}} Q^{*}(s, a)
+$$
 
 #### 推导过程
 
@@ -227,7 +235,9 @@ $$
 
 #### 方程形式
 
-$$Q^{*}(s, a) = \sum_{s' \in \mathcal{S}} P(s'|s, a) \left[R(s, a, s') + \gamma \max_{a' \in \mathcal{A}} Q^{*}(s', a')\right]$$
+$$
+Q^{*}(s, a) = \sum_{s' \in \mathcal{S}} P(s'|s, a) \left[R(s, a, s') + \gamma \max_{a' \in \mathcal{A}} Q^{*}(s', a')\right]
+$$
 
 #### 推导
 
@@ -244,13 +254,17 @@ $$
 
 #### 从 $V^{*}$ 提取
 
-$$\pi^{*}(s) = \arg\max_{a \in \mathcal{A}} \sum_{s'} P(s'|s, a) \left[R(s, a, s') + \gamma V^{*}(s')\right]$$
+$$
+\pi^{*}(s) = \arg\max_{a \in \mathcal{A}} \sum_{s'} P(s'|s, a) \left[R(s, a, s') + \gamma V^{*}(s')\right]
+$$
 
 > ⚠️ **需要知道模型** $P$ 和 $R$
 
 #### 从 $Q^{*}$ 提取（无需模型）
 
-$$\pi^{*}(s) = \arg\max_{a \in \mathcal{A}} Q^{*}(s, a)$$
+$$
+\pi^{*}(s) = \arg\max_{a \in \mathcal{A}} Q^{*}(s, a)
+$$
 
 > ✅ **不需要环境模型**，这是 Q-Learning 的核心优势
 
