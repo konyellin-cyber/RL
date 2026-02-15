@@ -188,7 +188,7 @@ $$
 #### 最优状态价值函数
 
 $$
-V^{*}(s) = \max_\pi V^\pi(s), \quad \forall s \in S
+V^{*}(s) = \max_\pi V^\pi(s), \quad \forall s \in \mathcal{S}
 $$
 
 **含义**：所有可能策略中，状态 $s$ 能达到的最大价值。
@@ -196,7 +196,7 @@ $$
 #### 最优动作价值函数
 
 $$
-Q^{*}(s, a) = \max_\pi Q^\pi(s, a), \quad \forall s \in S, a \in A
+Q^{*}(s, a) = \max_\pi Q^\pi(s, a), \quad \forall s \in \mathcal{S}, a \in \mathcal{A}
 $$
 
 **含义**：所有可能策略中，在状态 $s$ 执行动作 $a$ 能达到的最大价值。
@@ -205,11 +205,15 @@ $$
 
 #### 方程形式
 
+**形式1（完整展开）**：
+
 $$
-V^{*}(s) = \max_{a \in \mathcal{A}} \sum_{s' \in \mathcal{S}} P(s'|s, a) [R(s, a, s') + \gamma V^{*}(s')]
+\begin{aligned}
+V^{*}(s) = \max_{a \in \mathcal{A}} \Big[ \sum_{s' \in \mathcal{S}} P(s'|s, a) \big( R(s, a, s') + \gamma V^{*}(s') \big) \Big]
+\end{aligned}
 $$
 
-或者使用 $Q^{*}$：
+**形式2（使用Q函数）**：
 
 $$
 V^{*}(s) = \max_{a \in \mathcal{A}} Q^{*}(s, a)
@@ -221,9 +225,9 @@ $$
 
 $$
 \begin{aligned}
-V^{*}(s) &= \max_\pi V^\pi(s) \\
-&= \max_a \mathbb{E}[R_{t+1} + \gamma V^{*}(S_{t+1}) \mid S_t = s, A_t = a] \\
-&= \max_a \sum_{s'} P(s'|s, a) [R(s, a, s') + \gamma V^{*}(s')]
+V^{*}(s) &= \max_\pi V^\pi(s) \\[0.5em]
+&= \max_a \mathbb{E}\big[R_{t+1} + \gamma V^{*}(S_{t+1}) \mid S_t = s, A_t = a\big] \\[0.5em]
+&= \max_a \sum_{s'} P(s'|s, a) \big[R(s, a, s') + \gamma V^{*}(s')\big]
 \end{aligned}
 $$
 
@@ -236,15 +240,17 @@ $$
 #### 方程形式
 
 $$
-Q^{*}(s, a) = \sum_{s' \in \mathcal{S}} P(s'|s, a) [R(s, a, s') + \gamma \max_{a' \in \mathcal{A}} Q^{*}(s', a')]
+\begin{aligned}
+Q^{*}(s, a) = \sum_{s' \in \mathcal{S}} P(s'|s, a) \Big[ R(s, a, s') + \gamma \max_{a' \in \mathcal{A}} Q^{*}(s', a') \Big]
+\end{aligned}
 $$
 
 #### 推导
 
 $$
 \begin{aligned}
-Q^{*}(s, a) &= \mathbb{E}[R_{t+1} + \gamma V^{*}(S_{t+1}) \mid S_t = s, A_t = a] \\
-&= \sum_{s'} P(s'|s, a) [R(s, a, s') + \gamma \max_{a'} Q^{*}(s', a')]
+Q^{*}(s, a) &= \mathbb{E}\big[R_{t+1} + \gamma V^{*}(S_{t+1}) \mid S_t = s, A_t = a\big] \\[0.5em]
+&= \sum_{s'} P(s'|s, a) \Big[R(s, a, s') + \gamma \max_{a'} Q^{*}(s', a')\Big]
 \end{aligned}
 $$
 
