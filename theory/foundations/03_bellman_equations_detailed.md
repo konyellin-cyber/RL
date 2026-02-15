@@ -209,7 +209,7 @@ $$
 
 $$
 \begin{aligned}
-V^{*}(s) = \max_{a \in \mathcal{A}} \Big[ \sum_{s' \in \mathcal{S}} P(s'|s, a) \big( R(s, a, s') + \gamma V^{*}(s') \big) \Big]
+V^{*}(s) = \max_{a \in \mathcal{A}} \left[ \sum_{s' \in \mathcal{S}} P(s'|s, a) \left( R(s, a, s') + \gamma V^{*}(s') \right) \right]
 \end{aligned}
 $$
 
@@ -226,8 +226,8 @@ $$
 $$
 \begin{aligned}
 V^{*}(s) &= \max_\pi V^\pi(s) \\[0.5em]
-&= \max_a \mathbb{E}\big[R_{t+1} + \gamma V^{*}(S_{t+1}) \mid S_t = s, A_t = a\big] \\[0.5em]
-&= \max_a \sum_{s'} P(s'|s, a) \big[R(s, a, s') + \gamma V^{*}(s')\big]
+&= \max_a \mathbb{E}\left[R_{t+1} + \gamma V^{*}(S_{t+1}) \mid S_t = s, A_t = a\right] \\[0.5em]
+&= \max_a \sum_{s'} P(s'|s, a) \left[R(s, a, s') + \gamma V^{*}(s')\right]
 \end{aligned}
 $$
 
@@ -241,7 +241,7 @@ $$
 
 $$
 \begin{aligned}
-Q^{*}(s, a) = \sum_{s' \in \mathcal{S}} P(s'|s, a) \Big[ R(s, a, s') + \gamma \max_{a' \in \mathcal{A}} Q^{*}(s', a') \Big]
+Q^{*}(s, a) = \sum_{s' \in \mathcal{S}} P(s'|s, a) \left[ R(s, a, s') + \gamma \max_{a' \in \mathcal{A}} Q^{*}(s', a') \right]
 \end{aligned}
 $$
 
@@ -249,8 +249,8 @@ $$
 
 $$
 \begin{aligned}
-Q^{*}(s, a) &= \mathbb{E}\big[R_{t+1} + \gamma V^{*}(S_{t+1}) \mid S_t = s, A_t = a\big] \\[0.5em]
-&= \sum_{s'} P(s'|s, a) \Big[R(s, a, s') + \gamma \max_{a'} Q^{*}(s', a')\Big]
+Q^{*}(s, a) &= \mathbb{E}\left[R_{t+1} + \gamma V^{*}(S_{t+1}) \mid S_t = s, A_t = a\right] \\[0.5em]
+&= \sum_{s'} P(s'|s, a) \left[R(s, a, s') + \gamma \max_{a'} Q^{*}(s', a')\right]
 \end{aligned}
 $$
 
@@ -262,7 +262,7 @@ $$
 
 $$
 \begin{aligned}
-\pi^{*}(s) = \arg\max_{a \in \mathcal{A}} \sum_{s'} P(s'|s, a) \big[R(s, a, s') + \gamma V^{*}(s')\big]
+\pi^{*}(s) = \arg\max_{a \in \mathcal{A}} \sum_{s'} P(s'|s, a) \left[R(s, a, s') + \gamma V^{*}(s')\right]
 \end{aligned}
 $$
 
@@ -290,7 +290,7 @@ $$V = T^\pi V$$
 
 $$
 \begin{aligned}
-(T^\pi V)(s) = \sum_a \pi(a|s) \sum_{s'} P(s'|s, a) \big[R(s, a, s') + \gamma V(s')\big]
+(T^\pi V)(s) = \sum_a \pi(a|s) \sum_{s'} P(s'|s, a) \left[R(s, a, s') + \gamma V(s')\right]
 \end{aligned}
 $$
 
