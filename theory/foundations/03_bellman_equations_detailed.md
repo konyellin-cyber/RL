@@ -261,7 +261,9 @@ $$
 #### 从 $V^{*}$ 提取
 
 $$
-\pi^{*}(s) = \arg\max_{a \in \mathcal{A}} \sum_{s'} P(s'|s, a) [R(s, a, s') + \gamma V^{*}(s')]
+\begin{aligned}
+\pi^{*}(s) = \arg\max_{a \in \mathcal{A}} \sum_{s'} P(s'|s, a) \big[R(s, a, s') + \gamma V^{*}(s')\big]
+\end{aligned}
 $$
 
 > ⚠️ **需要知道模型** $P$ 和 $R$
@@ -286,7 +288,11 @@ $$V = T^\pi V$$
 
 其中 $T^\pi$ 是贝尔曼期望算子：
 
-$$(T^\pi V)(s) = \sum_a \pi(a|s) \sum_{s'} P(s'|s, a) [R(s, a, s') + \gamma V(s')]$$
+$$
+\begin{aligned}
+(T^\pi V)(s) = \sum_a \pi(a|s) \sum_{s'} P(s'|s, a) \big[R(s, a, s') + \gamma V(s')\big]
+\end{aligned}
+$$
 
 **定理（Banach 不动点定理）**：
 - $T^\pi$ 是关于 $\sup$ 范数的**压缩映射**（压缩系数为 $\gamma$）
