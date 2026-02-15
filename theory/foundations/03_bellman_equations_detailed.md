@@ -188,7 +188,7 @@ $$
 #### 最优状态价值函数
 
 $$
-V^{*}(s) = \max_\pi V^\pi(s), \quad \forall s \in \mathcal{S}
+V^{\ast}(s) = \max_\pi V^\pi(s), \quad \forall s \in \mathcal{S}
 $$
 
 **含义**：所有可能策略中，状态 $s$ 能达到的最大价值。
@@ -196,7 +196,7 @@ $$
 #### 最优动作价值函数
 
 $$
-Q^{*}(s, a) = \max_\pi Q^\pi(s, a), \quad \forall s \in \mathcal{S}, a \in \mathcal{A}
+Q^{\ast}(s, a) = \max_\pi Q^\pi(s, a), \quad \forall s \in \mathcal{S}, a \in \mathcal{A}
 $$
 
 **含义**：所有可能策略中，在状态 $s$ 执行动作 $a$ 能达到的最大价值。
@@ -208,13 +208,13 @@ $$
 **形式1（完整展开）**：
 
 $$
-V^{*}(s) = \max_{a \in \mathcal{A}} \left[ \sum_{s' \in \mathcal{S}} P(s'|s, a) \left( R(s, a, s') + \gamma V^{*}(s') \right) \right]
+V^{\ast}(s) = \max_{a \in \mathcal{A}} \left[ \sum_{s' \in \mathcal{S}} P(s'|s, a) \left( R(s, a, s') + \gamma V^{\ast}(s') \right) \right]
 $$
 
 **形式2（使用Q函数）**：
 
 $$
-V^{*}(s) = \max_{a \in \mathcal{A}} Q^{*}(s, a)
+V^{\ast}(s) = \max_{a \in \mathcal{A}} Q^{\ast}(s, a)
 $$
 
 #### 推导过程
@@ -223,9 +223,9 @@ $$
 
 $$
 \begin{aligned}
-V^{*}(s) &= \max_\pi V^\pi(s) \\[0.5em]
-&= \max_a \mathbb{E}\left[R_{t+1} + \gamma V^{*}(S_{t+1}) \mid S_t = s, A_t = a\right] \\[0.5em]
-&= \max_a \sum_{s'} P(s'|s, a) \left[R(s, a, s') + \gamma V^{*}(s')\right]
+V^{\ast}(s) &= \max_\pi V^\pi(s) \\[0.5em]
+&= \max_a \mathbb{E}\left[R_{t+1} + \gamma V^{\ast}(S_{t+1}) \mid S_t = s, A_t = a\right] \\[0.5em]
+&= \max_a \sum_{s'} P(s'|s, a) \left[R(s, a, s') + \gamma V^{\ast}(s')\right]
 \end{aligned}
 $$
 
@@ -239,7 +239,7 @@ $$
 
 $$
 \begin{aligned}
-Q^{*}(s, a) = \sum_{s' \in \mathcal{S}} P(s'|s, a) \left[ R(s, a, s') + \gamma \max_{a' \in \mathcal{A}} Q^{*}(s', a') \right]
+Q^{\ast}(s, a) = \sum_{s' \in \mathcal{S}} P(s'|s, a) \left[ R(s, a, s') + \gamma \max_{a' \in \mathcal{A}} Q^{\ast}(s', a') \right]
 \end{aligned}
 $$
 
@@ -247,29 +247,29 @@ $$
 
 $$
 \begin{aligned}
-Q^{*}(s, a) &= \mathbb{E}\left[R_{t+1} + \gamma V^{*}(S_{t+1}) \mid S_t = s, A_t = a\right] \\[0.5em]
-&= \sum_{s'} P(s'|s, a) \left[R(s, a, s') + \gamma \max_{a'} Q^{*}(s', a')\right]
+Q^{\ast}(s, a) &= \mathbb{E}\left[R_{t+1} + \gamma V^{\ast}(S_{t+1}) \mid S_t = s, A_t = a\right] \\[0.5em]
+&= \sum_{s'} P(s'|s, a) \left[R(s, a, s') + \gamma \max_{a'} Q^{\ast}(s', a')\right]
 \end{aligned}
 $$
 
 ### 4.4 最优策略的提取
 
-一旦得到 $V^{*}$ 或 $Q^{*}$，就可以提取最优策略：
+一旦得到 $V^{\ast}$ 或 $Q^{\ast}$，就可以提取最优策略：
 
-#### 从 $V^{*}$ 提取
+#### 从 $V^{\ast}$ 提取
 
 $$
 \begin{aligned}
-\pi^{*}(s) = \arg\max_{a \in \mathcal{A}} \sum_{s'} P(s'|s, a) \left[R(s, a, s') + \gamma V^{*}(s')\right]
+\pi^{\ast}(s) = \arg\max_{a \in \mathcal{A}} \sum_{s'} P(s'|s, a) \left[R(s, a, s') + \gamma V^{\ast}(s')\right]
 \end{aligned}
 $$
 
 > ⚠️ **需要知道模型** $P$ 和 $R$
 
-#### 从 $Q^{*}$ 提取（无需模型）
+#### 从 $Q^{\ast}$ 提取（无需模型）
 
 $$
-\pi^{*}(s) = \arg\max_{a \in \mathcal{A}} Q^{*}(s, a)
+\pi^{\ast}(s) = \arg\max_{a \in \mathcal{A}} Q^{\ast}(s, a)
 $$
 
 > ✅ **不需要环境模型**，这是 Q-Learning 的核心优势
@@ -331,7 +331,7 @@ $$(T^* V)(s) = \max_a \sum_{s'} P(s'|s, a) [R(s, a, s') + \gamma V(s')]$$
 
 **性质**：
 - 同样是压缩映射
-- 存在唯一不动点 $V^{*}$
+- 存在唯一不动点 $V^{\ast}$
 - 但不是线性系统，无法直接求逆
 
 ---
@@ -369,7 +369,7 @@ $$(T^* V)(s) = \max_a \sum_{s'} P(s'|s, a) [R(s, a, s') + \gamma V(s')]$$
 
 **提取最优策略**：
 
-$$\pi^{*}(s) = \arg\max_a \sum_{s'} P(s'|s, a) [R(s, a, s') + \gamma V^{*}(s')]$$
+$$\pi^{\ast}(s) = \arg\max_a \sum_{s'} P(s'|s, a) [R(s, a, s') + \gamma V^{\ast}(s')]$$
 
 ### 6.3 Q-Learning（无模型）
 
@@ -705,11 +705,11 @@ $$
 
 使用贝尔曼最优方程：
 
-$$V^{*}(A) = \max\{V_{\text{前进}}, V_{\text{等待}}\}$$
+$$V^{\ast}(A) = \max\{V_{\text{前进}}, V_{\text{等待}}\}$$
 
 计算得：
 - $V_{\text{前进}} = 0.7 \times 8.3 + 0.3 \times (-10) = 2.81$
-- $V_{\text{等待}} = -1 + 0.9 \times V^{*}(A)$（循环依赖）
+- $V_{\text{等待}} = -1 + 0.9 \times V^{\ast}(A)$（循环依赖）
 
 **最优决策**：应该选择"前进"，因为期望价值更高。
 
@@ -759,7 +759,7 @@ $$\theta \leftarrow \theta + \alpha [r + \gamma \max_{a'} Q(s', a'; \theta^-) - 
 
 贝尔曼最优方程：
 
-$$Q^{*}(s, a) = \sum_{s'} P(s'|s, a) [R(s, a, s') + \gamma \max_{a'} Q^{*}(s', a')]$$
+$$Q^{\ast}(s, a) = \sum_{s'} P(s'|s, a) [R(s, a, s') + \gamma \max_{a'} Q^{\ast}(s', a')]$$
 
 **关键观察**：
 - 右侧是关于转移分布的期望
@@ -775,7 +775,7 @@ $$Q(s, a) \leftarrow (1 - \alpha) Q(s, a) + \alpha [r + \gamma \max_{a'} Q(s', a
 
 **定理（Q-Learning 收敛性）**：
 
-在以下条件下，Q-Learning 以概率 1 收敛到 $Q^{*}$：
+在以下条件下，Q-Learning 以概率 1 收敛到 $Q^{\ast}$：
 
 1. 所有状态-动作对被无限次访问
 2. 学习率满足：
@@ -811,7 +811,7 @@ $$V(s) \leftarrow V(s) + \alpha \delta_t e_t(s)$$
 
 **问题**：Q-Learning 存在**高估偏差**（overestimation bias）
 
-$$\max_{a'} Q(s', a') \geq \mathbb{E}[\max_{a'} Q^{*}(s', a')]$$
+$$\max_{a'} Q(s', a') \geq \mathbb{E}[\max_{a'} Q^{\ast}(s', a')]$$
 
 **解决方案**：使用两个 Q 函数解耦选择与评估
 
@@ -847,7 +847,7 @@ $$Z(s, a) \stackrel{D}{=} R(s, a) + \gamma Z(S', A')$$
 
 | 概念 | 期望方程 | 最优方程 |
 |------|----------|----------|
-| **目标** | 评估策略 $\pi$ | 找最优策略 $\pi^{*}$ |
+| **目标** | 评估策略 $\pi$ | 找最优策略 $\pi^{\ast}$ |
 | **V 形式** | $\sum_a \pi(a|s) \sum_{s'} P[\cdots]$ | $\max_a \sum_{s'} P[\cdots]$ |
 | **Q 形式** | $\sum_{s'} P[R + \gamma \sum_{a'} \pi(a'|s') Q(s', a')]$ | $\sum_{s'} P[R + \gamma \max_{a'} Q(s', a')]$ |
 | **算法** | 策略评估、SARSA | 价值迭代、Q-Learning |
@@ -923,8 +923,8 @@ $$\text{当前价值} = \text{即时奖励} + \text{折扣} \times \text{未来�
 | $\pi$ | 策略 |
 | $V^\pi(s)$ | 策略 $\pi$ 下状态 $s$ 的价值 |
 | $Q^\pi(s, a)$ | 策略 $\pi$ 下在状态 $s$ 执行动作 $a$ 的价值 |
-| $V^{*}(s)$ | 最优状态价值 |
-| $Q^{*}(s, a)$ | 最优动作价值 |
+| $V^{\ast}(s)$ | 最优状态价值 |
+| $Q^{\ast}(s, a)$ | 最优动作价值 |
 | $P(s'|s, a)$ | 状态转移概率 |
 | $\mathbb{E}_\pi[\cdot]$ | 关于策略 $\pi$ 的期望 |
 | $T^\pi$ | 贝尔曼期望算子 |
