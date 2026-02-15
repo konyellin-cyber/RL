@@ -71,7 +71,7 @@ $$G_t = R_{t+1} + \gamma R_{t+2} + \gamma^2 R_{t+3} + \cdots = \sum_{k=0}^{\inft
 
 定义为在状态 $s$ 下遵循策略 $\pi$ 的**期望回报**：
 
-$$V^\pi(s) = \mathbb{E}_\pi[G_t \mid S_t = s] = \mathbb{E}_\pi\left[\sum_{k=0}^{\infty} \gamma^k R_{t+k+1} \mid S_t = s\right]$$
+$$V^\pi(s) = \mathbb{E}_\pi[G_t \mid S_t = s] = \mathbb{E}_\pi[\sum_{k=0}^{\infty} \gamma^k R_{t+k+1} \mid S_t = s]$$
 
 **直观理解**："在状态 $s$ 下，按照策略 $\pi$ 行动，长期能获得多少奖励？"
 
@@ -85,9 +85,9 @@ $$Q^\pi(s, a) = \mathbb{E}_\pi[G_t \mid S_t = s, A_t = a]$$
 
 ### 2.3 价值函数之间的关系
 
-$$V^\pi(s) = \sum_{a \in \mathcal{A}} \pi(a|s) Q^\pi(s, a)$$
+$$V^\pi(s) = \sum_{a \in A} \pi(a|s) Q^\pi(s, a)$$
 
-$$Q^\pi(s, a) = \sum_{s' \in \mathcal{S}} P(s'|s, a) \left[R(s, a, s') + \gamma V^\pi(s')\right]$$
+$$Q^\pi(s, a) = \sum_{s' \in S} P(s'|s, a) [R(s, a, s') + \gamma V^\pi(s')]$$
 
 ---
 
@@ -97,7 +97,7 @@ $$Q^\pi(s, a) = \sum_{s' \in \mathcal{S}} P(s'|s, a) \left[R(s, a, s') + \gamma 
 
 #### 方程形式
 
-$$V^\pi(s) = \sum_{a \in \mathcal{A}} \pi(a|s) \sum_{s' \in \mathcal{S}} P(s'|s, a) \left[R(s, a, s') + \gamma V^\pi(s')\right]$$
+$$V^\pi(s) = \sum_{a \in A} \pi(a|s) \sum_{s' \in S} P(s'|s, a) [R(s, a, s') + \gamma V^\pi(s')]$$
 
 #### 数学推导
 
@@ -126,36 +126,36 @@ $$
 
 **合并两部分**：
 
-$$V^\pi(s) = \sum_{a} \pi(a|s) \sum_{s'} P(s'|s, a) \left[R(s, a, s') + \gamma V^\pi(s')\right]$$
+$$V^\pi(s) = \sum_{a} \pi(a|s) \sum_{s'} P(s'|s, a) [R(s, a, s') + \gamma V^\pi(s')]$$
 
 #### 紧凑形式（矩阵表示）
 
 $$\mathbf{V}^\pi = \mathbf{R}^\pi + \gamma \mathbf{P}^\pi \mathbf{V}^\pi$$
 
 其中：
-- $\mathbf{V}^\pi \in \mathbb{R}^{|\mathcal{S}|}$ 是价值向量
-- $\mathbf{R}^\pi \in \mathbb{R}^{|\mathcal{S}|}$ 是期望奖励向量
-- $\mathbf{P}^\pi \in \mathbb{R}^{|\mathcal{S}| \times |\mathcal{S}|}$ 是状态转移矩阵
+- $\mathbf{V}^\pi \in \mathbb{R}^{|S|}$ 是价值向量
+- $\mathbf{R}^\pi \in \mathbb{R}^{|S|}$ 是期望奖励向量
+- $\mathbf{P}^\pi \in \mathbb{R}^{|S| \times |S|}$ 是状态转移矩阵
 
 **闭式解**：
 
 $$\mathbf{V}^\pi = (\mathbf{I} - \gamma \mathbf{P}^\pi)^{-1} \mathbf{R}^\pi$$
 
-> ⚠️ **注意**：直接求逆的计算复杂度为 $O(|\mathcal{S}|^3)$，不适用于大规模问题。
+> ⚠️ **注意**：直接求逆的计算复杂度为 $O(|S|^3)$，不适用于大规模问题。
 
 ### 3.2 动作价值函数的贝尔曼期望方程
 
 #### 方程形式
 
-$$Q^\pi(s, a) = \sum_{s' \in \mathcal{S}} P(s'|s, a) \left[R(s, a, s') + \gamma \sum_{a' \in \mathcal{A}} \pi(a'|s') Q^\pi(s', a')\right]$$
+$$Q^\pi(s, a) = \sum_{s' \in S} P(s'|s, a) [R(s, a, s') + \gamma \sum_{a' \in A} \pi(a'|s') Q^\pi(s', a')]$$
 
 #### 简化推导
 
 $$
 \begin{aligned}
 Q^\pi(s, a) &= \mathbb{E}[R_{t+1} + \gamma G_{t+1} \mid S_t = s, A_t = a] \\
-&= \sum_{s'} P(s'|s, a) \left[R(s, a, s') + \gamma V^\pi(s')\right] \\
-&= \sum_{s'} P(s'|s, a) \left[R(s, a, s') + \gamma \sum_{a'} \pi(a'|s') Q^\pi(s', a')\right]
+&= \sum_{s'} P(s'|s, a) [R(s, a, s') + \gamma V^\pi(s')] \\
+&= \sum_{s'} P(s'|s, a) [R(s, a, s') + \gamma \sum_{a'} \pi(a'|s') Q^\pi(s', a')]
 \end{aligned}
 $$
 
@@ -188,7 +188,7 @@ $$
 #### 最优状态价值函数
 
 $$
-V^{*}(s) = \max_\pi V^\pi(s), \quad \forall s \in \mathcal{S}
+V^{*}(s) = \max_\pi V^\pi(s), \quad \forall s \in S
 $$
 
 **含义**：所有可能策略中，状态 $s$ 能达到的最大价值。
@@ -196,7 +196,7 @@ $$
 #### 最优动作价值函数
 
 $$
-Q^{*}(s, a) = \max_\pi Q^\pi(s, a), \quad \forall s \in \mathcal{S}, a \in \mathcal{A}
+Q^{*}(s, a) = \max_\pi Q^\pi(s, a), \quad \forall s \in S, a \in A
 $$
 
 **含义**：所有可能策略中，在状态 $s$ 执行动作 $a$ 能达到的最大价值。
@@ -206,13 +206,13 @@ $$
 #### 方程形式
 
 $$
-V^{*}(s) = \max_{a \in \mathcal{A}} \sum_{s' \in \mathcal{S}} P(s'|s, a) \left[R(s, a, s') + \gamma V^{*}(s')\right]
+V^{*}(s) = \max_{a \in A} \sum_{s' \in S} P(s'|s, a) [R(s, a, s') + \gamma V^{*}(s')]
 $$
 
 或者使用 $Q^{*}$：
 
 $$
-V^{*}(s) = \max_{a \in \mathcal{A}} Q^{*}(s, a)
+V^{*}(s) = \max_{a \in A} Q^{*}(s, a)
 $$
 
 #### 推导过程
@@ -223,7 +223,7 @@ $$
 \begin{aligned}
 V^{*}(s) &= \max_\pi V^\pi(s) \\
 &= \max_a \mathbb{E}[R_{t+1} + \gamma V^{*}(S_{t+1}) \mid S_t = s, A_t = a] \\
-&= \max_a \sum_{s'} P(s'|s, a) \left[R(s, a, s') + \gamma V^{*}(s')\right]
+&= \max_a \sum_{s'} P(s'|s, a) [R(s, a, s') + \gamma V^{*}(s')]
 \end{aligned}
 $$
 
@@ -236,15 +236,15 @@ $$
 #### 方程形式
 
 $$
-Q^{*}(s, a) = \sum_{s' \in \mathcal{S}} P(s'|s, a) \left[R(s, a, s') + \gamma \max_{a' \in \mathcal{A}} Q^{*}(s', a')\right]
+Q^{*}(s, a) = \sum_{s' \in S} P(s'|s, a) [R(s, a, s') + \gamma \max_{a' \in A} Q^{*}(s', a')]
 $$
 
 #### 推导
 
 $$
 \begin{aligned}
-Q^{*}(s, a) &= \mathbb{E}\left[R_{t+1} + \gamma V^{*}(S_{t+1}) \mid S_t = s, A_t = a\right] \\
-&= \sum_{s'} P(s'|s, a) \left[R(s, a, s') + \gamma \max_{a'} Q^{*}(s', a')\right]
+Q^{*}(s, a) &= \mathbb{E}[R_{t+1} + \gamma V^{*}(S_{t+1}) \mid S_t = s, A_t = a] \\
+&= \sum_{s'} P(s'|s, a) [R(s, a, s') + \gamma \max_{a'} Q^{*}(s', a')]
 \end{aligned}
 $$
 
@@ -255,7 +255,7 @@ $$
 #### 从 $V^{*}$ 提取
 
 $$
-\pi^{*}(s) = \arg\max_{a \in \mathcal{A}} \sum_{s'} P(s'|s, a) \left[R(s, a, s') + \gamma V^{*}(s')\right]
+\pi^{*}(s) = \arg\max_{a \in A} \sum_{s'} P(s'|s, a) [R(s, a, s') + \gamma V^{*}(s')]
 $$
 
 > ⚠️ **需要知道模型** $P$ 和 $R$
@@ -263,7 +263,7 @@ $$
 #### 从 $Q^{*}$ 提取（无需模型）
 
 $$
-\pi^{*}(s) = \arg\max_{a \in \mathcal{A}} Q^{*}(s, a)
+\pi^{*}(s) = \arg\max_{a \in A} Q^{*}(s, a)
 $$
 
 > ✅ **不需要环境模型**，这是 Q-Learning 的核心优势
@@ -367,7 +367,7 @@ $$\pi^{*}(s) = \arg\max_a \sum_{s'} P(s'|s, a) [R(s, a, s') + \gamma V^{*}(s')]$
 
 **更新规则**：
 
-$$Q(s, a) \leftarrow Q(s, a) + \alpha \left[R + \gamma \max_{a'} Q(s', a') - Q(s, a)\right]$$
+$$Q(s, a) \leftarrow Q(s, a) + \alpha [R + \gamma \max_{a'} Q(s', a') - Q(s, a)]$$
 
 **关键点**：
 - 不需要知道 $P(s'|s, a)$
@@ -378,7 +378,7 @@ $$Q(s, a) \leftarrow Q(s, a) + \alpha \left[R + \gamma \max_{a'} Q(s', a') - Q(s
 
 使用贝尔曼期望方程的采样版本：
 
-$$Q(s, a) \leftarrow Q(s, a) + \alpha \left[R + \gamma Q(s', a') - Q(s, a)\right]$$
+$$Q(s, a) \leftarrow Q(s, a) + \alpha [R + \gamma Q(s', a') - Q(s, a)]$$
 
 **与 Q-Learning 的区别**：
 - Q-Learning：$\max_{a'} Q(s', a')$（最优动作）
@@ -743,13 +743,13 @@ $$V^{*}(A) = \max\{V_{\text{前进}}, V_{\text{等待}}\}$$
 
 **示例（DQN）**：
 
-$$\theta \leftarrow \theta + \alpha \left[r + \gamma \max_{a'} Q(s', a'; \theta^-) - Q(s, a; \theta)\right] \nabla_\theta Q(s, a; \theta)$$
+$$\theta \leftarrow \theta + \alpha [r + \gamma \max_{a'} Q(s', a'; \theta^-) - Q(s, a; \theta)] \nabla_\theta Q(s, a; \theta)$$
 
 ### 9.4 为什么 Q-Learning 不需要环境模型？
 
 贝尔曼最优方程：
 
-$$Q^{*}(s, a) = \sum_{s'} P(s'|s, a) \left[R(s, a, s') + \gamma \max_{a'} Q^{*}(s', a')\right]$$
+$$Q^{*}(s, a) = \sum_{s'} P(s'|s, a) [R(s, a, s') + \gamma \max_{a'} Q^{*}(s', a')]$$
 
 **关键观察**：
 - 右侧是关于转移分布的期望
@@ -757,7 +757,7 @@ $$Q^{*}(s, a) = \sum_{s'} P(s'|s, a) \left[R(s, a, s') + \gamma \max_{a'} Q^{*}(
 
 **采样版本**：
 
-$$Q(s, a) \leftarrow (1 - \alpha) Q(s, a) + \alpha \left[r + \gamma \max_{a'} Q(s', a')\right]$$
+$$Q(s, a) \leftarrow (1 - \alpha) Q(s, a) + \alpha [r + \gamma \max_{a'} Q(s', a')]$$
 
 其中 $(s, a, r, s')$ 是实际采样的转移。
 
