@@ -85,9 +85,9 @@ $$Q^\pi(s, a) = \mathbb{E}_\pi[G_t \mid S_t = s, A_t = a]$$
 
 ### 2.3 价值函数之间的关系
 
-$$V^\pi(s) = \sum_{a \in A} \pi(a|s) Q^\pi(s, a)$$
+$$V^\pi(s) = \sum_{a \in \mathcal{A}} \pi(a|s) Q^\pi(s, a)$$
 
-$$Q^\pi(s, a) = \sum_{s' \in S} P(s'|s, a) [R(s, a, s') + \gamma V^\pi(s')]$$
+$$Q^\pi(s, a) = \sum_{s' \in \mathcal{S}} P(s'|s, a) [R(s, a, s') + \gamma V^\pi(s')]$$
 
 ---
 
@@ -97,7 +97,7 @@ $$Q^\pi(s, a) = \sum_{s' \in S} P(s'|s, a) [R(s, a, s') + \gamma V^\pi(s')]$$
 
 #### 方程形式
 
-$$V^\pi(s) = \sum_{a \in A} \pi(a|s) \sum_{s' \in S} P(s'|s, a) [R(s, a, s') + \gamma V^\pi(s')]$$
+$$V^\pi(s) = \sum_{a \in \mathcal{A}} \pi(a|s) \sum_{s' \in \mathcal{S}} P(s'|s, a) [R(s, a, s') + \gamma V^\pi(s')]$$
 
 #### 数学推导
 
@@ -147,7 +147,7 @@ $$\mathbf{V}^\pi = (\mathbf{I} - \gamma \mathbf{P}^\pi)^{-1} \mathbf{R}^\pi$$
 
 #### 方程形式
 
-$$Q^\pi(s, a) = \sum_{s' \in S} P(s'|s, a) [R(s, a, s') + \gamma \sum_{a' \in A} \pi(a'|s') Q^\pi(s', a')]$$
+$$Q^\pi(s, a) = \sum_{s' \in \mathcal{S}} P(s'|s, a) [R(s, a, s') + \gamma \sum_{a' \in \mathcal{A}} \pi(a'|s') Q^\pi(s', a')]$$
 
 #### 简化推导
 
@@ -206,13 +206,13 @@ $$
 #### 方程形式
 
 $$
-V^{*}(s) = \max_{a \in A} \sum_{s' \in S} P(s'|s, a) [R(s, a, s') + \gamma V^{*}(s')]
+V^{*}(s) = \max_{a \in \mathcal{A}} \sum_{s' \in \mathcal{S}} P(s'|s, a) [R(s, a, s') + \gamma V^{*}(s')]
 $$
 
 或者使用 $Q^{*}$：
 
 $$
-V^{*}(s) = \max_{a \in A} Q^{*}(s, a)
+V^{*}(s) = \max_{a \in \mathcal{A}} Q^{*}(s, a)
 $$
 
 #### 推导过程
@@ -236,7 +236,7 @@ $$
 #### 方程形式
 
 $$
-Q^{*}(s, a) = \sum_{s' \in S} P(s'|s, a) [R(s, a, s') + \gamma \max_{a' \in A} Q^{*}(s', a')]
+Q^{*}(s, a) = \sum_{s' \in \mathcal{S}} P(s'|s, a) [R(s, a, s') + \gamma \max_{a' \in \mathcal{A}} Q^{*}(s', a')]
 $$
 
 #### 推导
@@ -255,7 +255,7 @@ $$
 #### 从 $V^{*}$ 提取
 
 $$
-\pi^{*}(s) = \arg\max_{a \in A} \sum_{s'} P(s'|s, a) [R(s, a, s') + \gamma V^{*}(s')]
+\pi^{*}(s) = \arg\max_{a \in \mathcal{A}} \sum_{s'} P(s'|s, a) [R(s, a, s') + \gamma V^{*}(s')]
 $$
 
 > ⚠️ **需要知道模型** $P$ 和 $R$
@@ -263,7 +263,7 @@ $$
 #### 从 $Q^{*}$ 提取（无需模型）
 
 $$
-\pi^{*}(s) = \arg\max_{a \in A} Q^{*}(s, a)
+\pi^{*}(s) = \arg\max_{a \in \mathcal{A}} Q^{*}(s, a)
 $$
 
 > ✅ **不需要环境模型**，这是 Q-Learning 的核心优势
