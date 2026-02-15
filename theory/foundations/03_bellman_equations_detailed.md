@@ -75,11 +75,11 @@ $$G_t = R_{t+1} + \gamma R_{t+2} + \gamma^2 R_{t+3} + \cdots = \sum_{k=0}^{\inft
 
 2. **反馈阶段**：用户交互产生真实反馈
    - 用户行为：阅读、点赞、分享、观看时长等
-   - 获得**真实奖励** $R^{\text{real}}$（用于修正预估和更新策略）
+   - 获得**真实奖励** $R^\text{real}$（用于修正预估和更新策略）
 
 因此，回报可以理解为：
 
-$$G_t = \underbrace{\hat{R}_{t+1} + \gamma \hat{R}_{t+2} + \cdots}_{\text{生成阶段：预估奖励}} + \underbrace{\gamma^K R_{\text{feedback}}}_{\text{反馈阶段：真实奖励}}$$
+$$G_t = \underbrace{\hat{R}_{t+1} + \gamma \hat{R}_{t+2} + \cdots}_{\text{生成阶段：预估奖励}} + \underbrace{\gamma^K R_\text{feedback}}_{\text{反馈阶段：真实奖励}}$$
 
 本章将在3.3节详细讨论这种双阶段机制下贝尔曼方程的应用。
 
@@ -147,10 +147,10 @@ $$V^\pi(s) = \sum_{a \in \mathcal{A}} \pi(a|s) \sum_{s' \in \mathcal{S}} P(s'|s,
 ```
 
 **数值示例（推荐系统）**：  
-假设用户在"科技兴趣"状态，策略为 $\pi(\text{推科技视频}|s)=0.7, \pi(\text{推娱乐视频}|s)=0.3$，$\gamma=0.9$：
-- 推科技视频：70%保持高活跃度，$R=+5$，$V^\pi(s_{\text{活跃}})=15$ → 贡献 $0.7 \times 0.7 \times (5+0.9\times15) = 10.0$
-- 推娱乐视频：60%转为混合兴趣，$R=+2$，$V^\pi(s_{\text{混合}})=8$ → 贡献 $0.3 \times 0.6 \times (2+0.9\times8) = 1.66$
-- 总计：$V^\pi(s_{\text{科技}}) = 10.0 + 1.66 + \cdots \approx 16.8$
+假设用户在"科技兴趣"状态，策略为 $\pi(\text{推科技视频} \mid s)=0.7, \pi(\text{推娱乐视频} \mid s)=0.3$，$\gamma=0.9$：
+- 推科技视频：70%保持高活跃度，$R=+5$，$V^\pi(s_\text{活跃})=15$ → 贡献 $0.7 \times 0.7 \times (5+0.9\times15) = 10.0$
+- 推娱乐视频：60%转为混合兴趣，$R=+2$，$V^\pi(s_\text{混合})=8$ → 贡献 $0.3 \times 0.6 \times (2+0.9\times8) = 1.66$
+- 总计：$V^\pi(s_\text{科技}) = 10.0 + 1.66 + \cdots \approx 16.8$
 
 #### 数学推导
 
@@ -271,16 +271,16 @@ $$
 
 **阶段2：反馈阶段（真实奖励）**
 
-当用户交互完成后，获得**真实奖励** $R^{\text{real}}$，需要重新分配到各个时间步：
+当用户交互完成后，获得**真实奖励** $R^\text{real}$，需要重新分配到各个时间步：
 
-$$Q^\pi(s_t, a_t) = \sum_{s'} P(s'|s_t, a_t) [R^{\text{real}}_t + \gamma V^\pi(s')]$$
+$$Q^\pi(s_t, a_t) = \sum_{s'} P(s'|s_t, a_t) [R^\text{real}_t + \gamma V^\pi(s')]$$
 
-其中 $R^{\text{real}}_t$ 包含两部分：
+其中 $R^\text{real}_t$ 包含两部分：
 
-$$R^{\text{real}}_t = R^{\text{item}}_t + R^{\text{session}}_{\text{bonus}}$$
+$$R^\text{real}_t = R^\text{item}_t + R^\text{session}_\text{bonus}$$
 
-- $R^{\text{item}}_t$：该item的直接反馈（点击、观看时长等）
-- $R^{\text{session}}_{\text{bonus}}$：会话级奖励的分配份额
+- $R^\text{item}_t$：该item的直接反馈（点击、观看时长等）
+- $R^\text{session}_\text{bonus}$：会话级奖励的分配份额
 
 #### 3.3.3 贝尔曼方程在两个阶段的应用
 
@@ -297,7 +297,7 @@ $$V^\pi(s_t) = \sum_{a_t} \pi(a_t|s_t) \sum_{s_{t+1}} P(s_{t+1}|s_t, a_t) [\hat{
 
 当获得真实反馈后，更新价值估计：
 
-$$V^\pi(s_t) \leftarrow V^\pi(s_t) + \alpha [R^{\text{real}}_t + \gamma V^\pi(s_{t+1}) - V^\pi(s_t)]$$
+$$V^\pi(s_t) \leftarrow V^\pi(s_t) + \alpha [R^\text{real}_t + \gamma V^\pi(s_{t+1}) - V^\pi(s_t)]$$
 
 这是TD学习的形式，用于修正预估奖励与真实奖励的差异。
 
@@ -305,7 +305,7 @@ $$V^\pi(s_t) \leftarrow V^\pi(s_t) + \alpha [R^{\text{real}}_t + \gamma V^\pi(s_
 
 **场景**：生成3个推荐items的序列
 
-| 时间步 | 状态 $s_t$ | 动作 $a_t$ | 预估奖励 $\hat{R}$ | 真实奖励 $R^{\text{real}}$ |
+| 时间步 | 状态 $s_t$ | 动作 $a_t$ | 预估奖励 $\hat{R}$ | 真实奖励 $R^\text{real}$ |
 |--------|-----------|-----------|------------------|------------------------|
 | $t=1$ | `user=科技爱好者, items=[]` | `item_1=科技视频` | $+0.8$ (高相关性) | $+0.9$ (点击+观看) |
 | $t=2$ | `user=科技爱好者, items=[item_1]` | `item_2=娱乐视频` | $+0.6 + 0.3 = +0.9$ (相关性+多样性) | $+0.1$ (跳过) |
@@ -313,11 +313,11 @@ $$V^\pi(s_t) \leftarrow V^\pi(s_t) + \alpha [R^{\text{real}}_t + \gamma V^\pi(s_
 
 **生成阶段的价值计算**（使用预估奖励）：
 
-假设 $\gamma = 0.9$，$V^\pi(s_{\text{final}}) = 0$（终止状态）
+假设 $\gamma = 0.9$，$V^\pi(s_\text{final}) = 0$（终止状态）
 
 $$
 \begin{aligned}
-V^\pi(s_3) &= \hat{R}_3 + \gamma V^\pi(s_{\text{final}}) = 1.1 + 0 = 1.1 \\
+V^\pi(s_3) &= \hat{R}_3 + \gamma V^\pi(s_\text{final}) = 1.1 + 0 = 1.1 \\
 V^\pi(s_2) &= \hat{R}_2 + \gamma V^\pi(s_3) = 0.9 + 0.9 \times 1.1 = 1.89 \\
 V^\pi(s_1) &= \hat{R}_1 + \gamma V^\pi(s_2) = 0.8 + 0.9 \times 1.89 = 2.50
 \end{aligned}
@@ -327,9 +327,9 @@ $$
 
 $$
 \begin{aligned}
-V^\pi(s_3) &= R^{\text{real}}_3 + 0 = 0.5 \\
-V^\pi(s_2) &= R^{\text{real}}_2 + 0.9 \times 0.5 = 0.1 + 0.45 = 0.55 \\
-V^\pi(s_1) &= R^{\text{real}}_1 + 0.9 \times 0.55 = 0.9 + 0.495 = 1.40
+V^\pi(s_3) &= R^\text{real}_3 + 0 = 0.5 \\
+V^\pi(s_2) &= R^\text{real}_2 + 0.9 \times 0.5 = 0.1 + 0.45 = 0.55 \\
+V^\pi(s_1) &= R^\text{real}_1 + 0.9 \times 0.55 = 0.9 + 0.495 = 1.40
 \end{aligned}
 $$
 
@@ -337,9 +337,9 @@ $$
 
 $$
 \begin{aligned}
-\delta_1 &= R^{\text{real}}_1 + \gamma V(s_2) - V(s_1) = 0.9 + 0.9 \times 0.55 - 2.50 = -1.105 \\
-\delta_2 &= R^{\text{real}}_2 + \gamma V(s_3) - V(s_2) = 0.1 + 0.9 \times 0.5 - 1.89 = -1.34 \\
-\delta_3 &= R^{\text{real}}_3 - V(s_3) = 0.5 - 1.1 = -0.6
+\delta_1 &= R^\text{real}_1 + \gamma V(s_2) - V(s_1) = 0.9 + 0.9 \times 0.55 - 2.50 = -1.105 \\
+\delta_2 &= R^\text{real}_2 + \gamma V(s_3) - V(s_2) = 0.1 + 0.9 \times 0.5 - 1.89 = -1.34 \\
+\delta_3 &= R^\text{real}_3 - V(s_3) = 0.5 - 1.1 = -0.6
 \end{aligned}
 $$
 
@@ -366,7 +366,7 @@ $$V^\pi(s_t) = \sum_{a_t} \pi(a_t|s_t) [\hat{R}(s_t, a_t) + \gamma V^\pi(s_t \cu
 
 **3. 真实奖励的修正**
 
-真实奖励 $R^{\text{real}}$ 用于：
+真实奖励 $R^\text{real}$ 用于：
 - 验证预估奖励的准确性
 - 通过TD学习更新价值函数和策略
 - 调整预估模型的参数
@@ -384,7 +384,7 @@ $$V^\pi(s_t) = \sum_{a_t} \pi(a_t|s_t) [\hat{R}(s_t, a_t) + \gamma V^\pi(s_t \cu
 
 基于贝尔曼期望方程，策略优化需要：
 
-1. **改进预估模型**：使 $\hat{R}$ 更接近 $R^{\text{real}}$
+1. **改进预估模型**：使 $\hat{R}$ 更接近 $R^\text{real}$
 2. **调整多样性权重**：根据真实反馈调整 $w_1, w_2, w_3$
 3. **优化策略网络**：使 $\pi(a_t|s_t)$ 最大化期望回报 $V^\pi(s_t)$
 4. **平衡探索利用**：在相关性和多样性之间找到最佳平衡
