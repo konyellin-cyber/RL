@@ -208,9 +208,7 @@ $$
 **形式1（完整展开）**：
 
 $$
-\begin{aligned}
 V^{*}(s) = \max_{a \in \mathcal{A}} \left[ \sum_{s' \in \mathcal{S}} P(s'|s, a) \left( R(s, a, s') + \gamma V^{*}(s') \right) \right]
-\end{aligned}
 $$
 
 **形式2（使用Q函数）**：
