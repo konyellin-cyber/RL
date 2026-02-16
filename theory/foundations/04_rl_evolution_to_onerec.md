@@ -62,28 +62,34 @@ graph TB
         Q --> R
     end
     
-    subgraph OneRec["快手 OneRec 应用"]
-        S["ECPO 优化<br/>Enhanced Clipping"]
-        T["生成式推荐<br/>Transformer+RL"]
+    subgraph RL_Advanced["高级策略优化"]
+        S["ECPO<br/>Enhanced Clipping"]
         
         P --> S
+        O --> S
+    end
+    
+    subgraph OneRec["快手 OneRec 应用"]
+        T["生成式推荐<br/>Transformer+RL"]
+        
         R --> T
         S --> T
     end
     
-    K -.在推荐场景失效.-> S
-    O --> S
+    K -.在推荐场景失效.-> T
     
     classDef traditional fill:#e1f5ff,stroke:#01579b,stroke-width:2px
     classDef skipped fill:#ffebee,stroke:#c62828,stroke-width:2px,stroke-dasharray:5 5
     classDef modern fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    classDef rl_advanced fill:#ffecb3,stroke:#f57c00,stroke-width:2px
     classDef onerec fill:#e8f5e9,stroke:#2e7d32,stroke-width:3px
     
     class A,B,C,D,E,F,G traditional
     class H,I,J,K skipped
     class L,M,N,O,P modern
     class Q,R modern
-    class S,T onerec
+    class S rl_advanced
+    class T onerec
 ```
 
 ---
@@ -277,68 +283,6 @@ graph TD
 
 ---
 
-## 🧬 OneRec 的技术基因图谱
-
-```mermaid
-mindmap
-  root((OneRec))
-    强化学习基因
-      策略梯度
-        REINFORCE
-        PPO
-        GRPO
-      ECPO
-        Clipped Objective
-        Early Clipping
-        Group Advantage
-      奖励系统
-        P-Score
-        Format Reward
-        Industrial Reward
-    
-    Transformer基因
-      Encoder
-        Multi-head Attention
-        4条特征路径
-        MoE Layer
-      Decoder
-        Causal Attention
-        Cross Attention
-        自回归生成
-      Tokenization
-        RQ-Kmeans
-        3层量化
-        语义ID
-    
-    推荐系统基因
-      多模态
-        视频封面
-        文本描述
-        ASR/OCR
-      协同过滤
-        Item相似度
-        User历史
-      业务约束
-        格式校验
-        内容安全
-    
-    工程优化基因
-      分布式训练
-        数据并行
-        模型并行
-        ZeRO优化
-      推理加速
-        KV-Cache
-        Beam Search
-        量化部署
-      监控运维
-        A/B测试
-        实时反馈
-        降级策略
-```
-
----
-
 ## 📊 数学形式对比
 
 ### 传统 Value-Based (01_basics.md)
@@ -377,63 +321,20 @@ mindmap
 
 ---
 
-## 🎯 关键突破点总结
-
-```mermaid
-graph LR
-    subgraph Bottleneck["传统方法瓶颈"]
-        A1["动作空间<br/>10¹⁸"]
-        A2["Q表存储<br/>不可行"]
-        A3["max操作<br/>计算爆炸"]
-    end
-    
-    subgraph Solution["快手解决方案"]
-        B1["生成式<br/>逐token"]
-        B2["神经网络<br/>隐式表征"]
-        B3["Beam Search<br/>近似求解"]
-    end
-    
-    subgraph Innovation["核心创新"]
-        C1["端到端"]
-        C2["可扩展"]
-        C3["工程化"]
-    end
-    
-    A1 -.解决.-> B1
-    A2 -.解决.-> B2
-    A3 -.解决.-> B3
-    
-    B1 --> C1
-    B2 --> C2
-    B3 --> C3
-    
-    style A1 fill:#ffcdd2
-    style A2 fill:#ffcdd2
-    style A3 fill:#ffcdd2
-    style B1 fill:#c5e1a5
-    style B2 fill:#c5e1a5
-    style B3 fill:#c5e1a5
-    style C1 fill:#a5d6a7
-    style C2 fill:#a5d6a7
-    style C3 fill:#a5d6a7
-```
-
----
-
-## 📚 学习路径建议
+## 📚 生成式推荐+强化学习 学习路径
 
 ```mermaid
 graph TD
-    L1["阶段1: 基础理论<br/>01_basics.md"] --> L2["阶段2: 深度方法<br/>DQN/A3C"]
-    L2 --> L3["阶段3: 策略梯度<br/>PPO/TRPO"]
-    L3 --> L4["阶段4: Transformer<br/>架构理解"]
-    L4 --> L5["阶段5: OneRec<br/>生成式推荐"]
+    L1["阶段1: 强化学习基础<br/>01_basics.md"] --> L2["阶段2: 策略梯度方法<br/>PPO/TRPO"]
+    L2 --> L3["阶段3: Transformer架构<br/>Seq2Seq/Attention"]
+    L3 --> L4["阶段4: 生成式RL<br/>RLHF/GRPO"]
+    L4 --> L5["阶段5: 推荐系统应用<br/>OneRec/ECPO"]
     
-    L1 -.实践.-> P1["实现 Q-Learning<br/>小型网格世界"]
-    L2 -.实践.-> P2["实现 DQN<br/>Atari 游戏"]
-    L3 -.实践.-> P3["实现 PPO<br/>连续控制任务"]
-    L4 -.实践.-> P4["实现 Seq2Seq<br/>序列生成"]
-    L5 -.实践.-> P5["研究 OneRec<br/>推荐系统"]
+    L1 -.实践.-> P1["实现 Q-Learning<br/>理解价值函数"]
+    L2 -.实践.-> P2["实现 PPO<br/>策略优化"]
+    L3 -.实践.-> P3["实现文本生成<br/>序列建模"]
+    L4 -.实践.-> P4["LLM微调<br/>奖励学习"]
+    L5 -.实践.-> P5["研究 OneRec<br/>生成式推荐"]
     
     style L1 fill:#e3f2fd
     style L2 fill:#fff3e0
@@ -441,6 +342,13 @@ graph TD
     style L4 fill:#f0f4c3
     style L5 fill:#c8e6c9,stroke:#2e7d32,stroke-width:3px
 ```
+
+**核心技能树**：
+1. **RL基础** → 理解MDP、价值函数、贝尔曼方程
+2. **策略梯度** → 掌握REINFORCE、Actor-Critic、PPO
+3. **Transformer** → 理解Self-Attention、Encoder-Decoder
+4. **生成式RL** → 学习RLHF（如ChatGPT）、GRPO
+5. **推荐应用** → 研究OneRec如何结合生成+RL
 
 ---
 
