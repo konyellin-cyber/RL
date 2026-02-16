@@ -4,36 +4,36 @@
 
 ---
 
-## 📊 完整演进关系图
+## 📊 强化学习基础演进关系图
 
 ```mermaid
 graph TB
-    subgraph Theory["基础理论层"]
-        A["强化学习核心概念<br/>Agent-Environment"]
-        B["马尔可夫决策过程<br/>MDP框架"]
-        C["价值函数<br/>V和Q函数"]
-        D["贝尔曼方程<br/>递归分解"]
+    subgraph Theory["基础理论层 (01_basics.md)"]
+        A["强化学习核心概念<br/>Agent-Environment-Reward"]
+        B["马尔可夫决策过程<br/>MDP ⟨S,A,P,R,γ⟩"]
+        C["价值函数<br/>V(s) 和 Q(s,a)"]
+        D["贝尔曼方程<br/>价值递归分解"]
         
         A --> B
         B --> C
         B --> D
     end
     
-    subgraph Methods["学习方法"]
-        E["动态规划 DP"]
-        F["蒙特卡洛 MC"]
-        G["时序差分 TD"]
+    subgraph Methods["经典学习方法"]
+        E["动态规划 DP<br/>需要完整模型"]
+        F["蒙特卡洛 MC<br/>完整回合采样"]
+        G["时序差分 TD<br/>在线+自举"]
         
         D --> E
         D --> F
         D --> G
     end
     
-    subgraph ValueBased["Value-Based分支"]
-        H["Q-Learning"]
-        I["SARSA"]
-        J["DQN 2013"]
-        K["Rainbow DQN"]
+    subgraph ValueBased["Value-Based 路径 (被跳过)"]
+        H["Q-Learning<br/>Off-Policy"]
+        I["SARSA<br/>On-Policy"]
+        J["DQN 2013<br/>深度Q网络"]
+        K["Rainbow DQN<br/>多项改进融合"]
         
         G --> H
         G --> I
@@ -41,12 +41,12 @@ graph TB
         J --> K
     end
     
-    subgraph PolicyBased["Policy-Based分支"]
-        L["REINFORCE"]
-        M["Actor-Critic"]
-        N["TRPO 2015"]
-        O["PPO 2017"]
-        P["GRPO"]
+    subgraph PolicyBased["Policy-Based 路径 (快手选择)"]
+        L["REINFORCE<br/>策略梯度基础"]
+        M["Actor-Critic<br/>价值+策略"]
+        N["TRPO 2015<br/>Trust Region"]
+        O["PPO 2017<br/>Clipped Objective"]
+        P["GRPO<br/>Group Relative"]
         
         C --> L
         L --> M
@@ -55,55 +55,35 @@ graph TB
         O --> P
     end
     
-    subgraph DL["深度学习"]
-        Q["Transformer 2017"]
-        R["GPT系列"]
-        S["BERT/T5"]
-        T["LLM 2020+"]
+    subgraph Modern["深度学习技术"]
+        Q["Transformer 2017<br/>Self-Attention"]
+        R["Encoder-Decoder<br/>序列到序列"]
         
         Q --> R
-        Q --> S
+    end
+    
+    subgraph OneRec["快手 OneRec 应用"]
+        S["ECPO 优化<br/>Enhanced Clipping"]
+        T["生成式推荐<br/>Transformer+RL"]
+        
+        P --> S
         R --> T
+        S --> T
     end
     
-    subgraph RecSys["推荐系统"]
-        U["级联架构"]
-        V["深度模型"]
-        W["序列推荐"]
-        X["多目标优化"]
-        
-        U --> V
-        V --> W
-        W --> X
-    end
-    
-    subgraph OneRec["快手OneRec"]
-        Y["语义Tokenization"]
-        Z["Encoder-Decoder"]
-        AA["ECPO优化"]
-        AB["端到端生成"]
-        
-        Y --> Z
-        Z --> AB
-        P --> AA
-        AA --> AB
-    end
-    
-    K -.跳过.-> AA
-    O --> AA
-    T --> Z
-    S --> Z
-    X --> Y
+    K -.在推荐场景失效.-> S
+    O --> S
     
     classDef traditional fill:#e1f5ff,stroke:#01579b,stroke-width:2px
+    classDef skipped fill:#ffebee,stroke:#c62828,stroke-width:2px,stroke-dasharray:5 5
     classDef modern fill:#fff3e0,stroke:#e65100,stroke-width:2px
     classDef onerec fill:#e8f5e9,stroke:#2e7d32,stroke-width:3px
-    classDef skipped fill:#ffebee,stroke:#c62828,stroke-width:2px,stroke-dasharray:5 5
     
     class A,B,C,D,E,F,G traditional
     class H,I,J,K skipped
-    class L,M,N,O,P,Q,R,S,T modern
-    class Y,Z,AA,AB onerec
+    class L,M,N,O,P modern
+    class Q,R modern
+    class S,T onerec
 ```
 
 ---
