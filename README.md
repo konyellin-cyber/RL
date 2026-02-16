@@ -2,6 +2,27 @@
 
 > 本项目聚焦于**生成式推荐系统**中强化学习的应用，包含理论基础、算法实现和可运行的开源案例，帮助理解如何用RL优化推荐策略和用户长期留存。
 
+## 💡 核心洞察
+
+**为什么现代推荐系统选择策略梯度而非价值方法？**
+
+传统的Value-Based方法（Q-Learning/DQN）在推荐系统中遇到了三大瓶颈：
+- ❌ **动作空间爆炸**：百万级item池导致 10¹⁸ 组合空间
+- ❌ **Q表存储不可行**：无法枚举所有状态-动作对
+- ❌ **max操作计算不可行**：无法遍历所有候选item
+
+而Policy-Based方法（PPO/GRPO/ECPO）天然适合推荐场景：
+- ✅ **直接优化策略**：不需要显式Q函数
+- ✅ **处理连续空间**：神经网络参数化策略
+- ✅ **支持生成任务**：逐步生成推荐序列
+- ✅ **端到端优化**：Transformer + RL统一多阶段推荐
+
+**生成式推荐的范式转变**：从"选择物品"到"生成序列"
+- 传统：召回 → 粗排 → 精排 → 重排（级联架构）
+- 现代：Encoder-Decoder + ECPO（端到端生成）
+
+详见 [第4章：强化学习演进分析](theory/foundations/04_rl_evolution_to_onerec.md) ⭐
+
 ## 🎯 项目目标
 
 - 📖 掌握推荐系统中的RL基础概念（MDP建模、价值函数、策略优化）
@@ -12,6 +33,9 @@
 ## 📚 学习路线
 
 ### 第一阶段：推荐系统的RL基础
+- [x] [强化学习基础概念](theory/foundations/01_basics.md)
+  - MDP框架、价值函数、贝尔曼方程
+  - 策略优化、探索与利用
 - [x] [马尔可夫决策过程（MDP）在推荐中的建模](theory/foundations/02_mdp_detailed.md)
   - 状态：用户画像+浏览历史+上下文
   - 动作：推荐内容+生成策略
@@ -19,32 +43,56 @@
 - [x] [贝尔曼方程详解](theory/foundations/03_bellman_equations_detailed.md)
   - 价值函数：用户状态价值 vs 推荐动作价值
   - 优势函数：衡量推荐效果
-- [ ] 推荐系统的MDP建模案例
-  - 短视频推荐的状态空间设计
-  - 多目标奖励函数设计
+- [x] [强化学习演进：从基础理论到生成式推荐](theory/foundations/04_rl_evolution_to_onerec.md) ⭐
+  - Value-Based vs Policy-Based 路径分析
+  - 为什么现代推荐系统选择策略梯度方法
+  - Transformer + RL 的融合架构
 
-### 第二阶段：推荐场景的经典RL算法
+### 第二阶段：经典RL算法（小规模场景）
 - [ ] **Q-Learning** for 推荐
   - 表格型Q表：小规模离散推荐
   - 实现：新闻推荐的Q-Learning
+  - ⚠️ 局限：动作空间爆炸、无法泛化
 - [ ] **Deep Q-Network (DQN)** for 推荐
   - 处理高维状态（用户embedding）
   - 实现：基于DQN的视频推荐
-- [ ] **Policy Gradient** 方法
-  - REINFORCE算法
-  - 直接优化推荐策略
+  - ⚠️ 局限：max操作计算不可行（百万级item池）
 
-### 第三阶段：生成式推荐的进阶算法
+### 第三阶段：策略梯度方法（现代推荐主流）
+- [ ] **REINFORCE** 算法
+  - 直接优化推荐策略
+  - 策略梯度定理与实现
 - [ ] **Actor-Critic** 架构
   - A2C/A3C在推荐中的应用
-  - 平衡探索与利用
-- [ ] **Proximal Policy Optimization (PPO)**
-  - 稳定的策略优化
+  - 降低方差、提高稳定性
+- [ ] **Proximal Policy Optimization (PPO)** ⭐
+  - OpenAI主推的稳定策略优化
   - 处理推荐系统的延迟奖励
-- [ ] **Deep Deterministic Policy Gradient (DDPG)**
-  - 连续动作空间（生成参数调优）
+  - Clipped Objective机制
+- [ ] **GRPO (Group Relative Policy Optimization)**
+  - DeepSeek提出的组相对优化
+  - 无需Critic模型，降低计算成本
+  - 适用于大模型微调场景
 
-### 第四阶段：推荐系统的特殊挑战
+### 第四阶段：生成式推荐（前沿方向）🚀
+- [ ] **Transformer在推荐中的应用**
+  - Encoder-Decoder架构
+  - Self-Attention机制建模用户兴趣
+  - 序列到序列的推荐生成
+- [ ] **ECPO (Enhanced Clipping Policy Optimization)**
+  - 快手OneRec的核心算法
+  - PPO + GRPO 的增强版本
+  - 针对推荐场景的裁剪机制优化
+- [ ] **端到端生成式推荐系统**
+  - 语义ID Tokenization (RQ-Kmeans)
+  - 自回归生成推荐序列
+  - 统一多阶段推荐为生成任务
+- [ ] **LLM + RL for 推荐**
+  - 大语言模型理解用户意图
+  - RLHF (Reinforcement Learning from Human Feedback)
+  - Prompt工程与推荐结合
+
+### 第五阶段：推荐系统的特殊挑战
 - [ ] **多目标强化学习**
   - 同时优化点击率、完播率、留存率
   - Pareto前沿与权衡策略
@@ -53,7 +101,7 @@
   - Batch RL、Conservative Q-Learning
 - [ ] **探索与利用（Exploration-Exploitation）**
   - ε-greedy、UCB、Thompson Sampling
-  - 避免信息茧房
+  - Beam Search在生成式推荐中的应用
 - [ ] **冷启动问题**
   - 新用户的快速适应
   - Meta-Learning方法
@@ -171,27 +219,40 @@ pip install -r requirements.txt
 
 ### 重要论文（推荐系统+RL）
 
-#### 基础论文
+#### 经典基础（2018-2020）
 1. **DRN**: Deep Reinforcement Learning for News Recommendation (2018)
    - 首个将DQN应用于新闻推荐的工作
 2. **Deep Reinforcement Learning for Page-wise Recommendations** (RecSys 2018)
    - 整页推荐的RL建模
 3. **Top-K Off-Policy Correction for Recommender System** (WSDM 2019)
    - 离线RL在推荐中的应用
-
-#### 进阶论文
 4. **SlateQ**: Slate Optimization via Q-Learning (KDD 2019)
    - 同时推荐多个物品的RL方法
 5. **Generative Adversarial User Model for RL in Recommendation** (ICML 2019)
    - 用户模拟器构建
-6. **Model-Based RL for Sequential Recommendation** (SIGIR 2020)
-   - 基于模型的推荐RL
 
-#### 最新进展
-7. **Large Language Models for Recommendation with RL** (2023)
-   - LLM + RL的生成式推荐
-8. **Multi-Objective RL for Long-term User Engagement** (2024)
-   - 多目标优化最新方法
+#### 策略梯度方法（2015-2017）
+6. **TRPO**: Trust Region Policy Optimization (ICML 2015)
+   - Schulman et al. 提出信任域优化
+   - 保证策略单调改进
+7. **PPO**: Proximal Policy Optimization (2017)
+   - OpenAI简化TRPO，成为主流算法
+   - Clipped Objective机制
+
+#### 生成式推荐最新进展（2023-2025）⭐
+8. **GRPO**: Group Relative Policy Optimization (DeepSeek 2024)
+   - 组内相对奖励比较
+   - 无需Critic模型，降低训练成本
+   - 应用于DeepSeek-R1大模型微调
+9. **OneRec**: One Model, One Serving for Generative Recommendation (快手 2025)
+   - ECPO (Enhanced Clipping Policy Optimization)
+   - Transformer + RL端到端生成式推荐
+   - 语义ID Tokenization (RQ-Kmeans)
+   - 统一召回/排序/重排为生成任务
+   - 在快手APP实现显著业务提升
+10. **Large Language Models for Recommendation with RL** (2023)
+    - LLM + RL的生成式推荐
+    - RLHF在推荐系统中的应用
 
 ### 开源项目参考
 - **RecoGym** - 推荐系统的RL环境模拟器
@@ -225,11 +286,17 @@ pip install -r requirements.txt
 - **挑战**: 目标权衡、帕累托前沿
 - **难度**: ⭐⭐⭐⭐⭐
 
-### 5. 生成式推荐（前沿）
-- **目标**: 结合LLM生成个性化内容并推荐
-- **技术**: PPO + 预训练模型
-- **挑战**: 大模型调优、prompt工程
+### 5. 生成式推荐（前沿）⭐
+- **目标**: 端到端生成式推荐，统一多阶段流程
+- **技术**: ECPO + Transformer + 语义Tokenization
+- **参考**: 快手OneRec技术报告
+- **挑战**: 
+  - 百万级item池的语义ID设计
+  - Encoder-Decoder架构优化
+  - 大规模分布式训练
+  - 组相对策略优化
 - **难度**: ⭐⭐⭐⭐⭐
+- **价值**: 代表推荐系统的未来方向
 
 ## 🚀 快速开始
 
@@ -264,7 +331,14 @@ tensorboard --logdir logs/
 1. theory/foundations/01_basics.md              # RL基础概念
 2. theory/foundations/02_mdp_detailed.md        # MDP在推荐中的应用
 3. theory/foundations/03_bellman_equations_detailed.md  # 贝尔曼方程详解
+4. theory/foundations/04_rl_evolution_to_onerec.md     # ⭐ 从基础理论到生成式推荐
 ```
+
+**第4章核心要点**：
+- 为什么Value-Based方法（Q-Learning/DQN）在推荐系统遇到瓶颈
+- 为什么Policy-Based方法（PPO/GRPO/ECPO）成为主流
+- Transformer + RL如何实现端到端生成式推荐
+- 快手OneRec的技术架构与创新点
 
 ## 📊 学习进度
 
@@ -273,16 +347,22 @@ tensorboard --logdir logs/
 **理论部分**:
 - [x] MDP基础与推荐系统建模
 - [x] 贝尔曼方程详解
-- [ ] 策略梯度方法原理
+- [x] 强化学习演进路径分析（Value-Based vs Policy-Based）⭐
+- [ ] 策略梯度方法原理（REINFORCE/PPO/GRPO）
 - [ ] Actor-Critic架构设计
 - [ ] 离线强化学习理论
+- [ ] Transformer在推荐中的应用
+- [ ] 生成式推荐系统架构（ECPO/OneRec）
 
 **实现部分**:
+- [ ] Q-Learning小规模推荐（理解局限性）
 - [ ] DQN新闻推荐系统
+- [ ] PPO策略梯度实现
 - [ ] A2C短视频推荐
 - [ ] Offline RL电商推荐
 - [ ] 多目标推荐优化
-- [ ] LLM + RL生成式推荐
+- [ ] ECPO生成式推荐（OneRec复现）
+- [ ] LLM + RLHF推荐系统
 
 **实验记录**:
 - [ ] 对比不同RL算法在推荐中的表现
